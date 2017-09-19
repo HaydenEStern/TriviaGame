@@ -13,7 +13,13 @@
 
 var correctAnswer;
 var activeQuestion = {};
-
+var answeredCorrect = [];
+var answeredWrong = [];
+var correctCounter = 0;
+var correct = [];
+var displayCorrect;
+var wrong = [];
+var displayWrong;
 var questionBank = [{
 
         question: "Which type of shorebird has a distinctive upwardly curved bill?",
@@ -66,37 +72,134 @@ var questionBank = [{
     }
 ];
 
+function pause(milliseconds) {
+    var dt = new Date();
+    while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+};
+
+var start = new Date;
+
+setInterval(function() {
+    $('.Timer').text(Math.round((new Date - start) / 1000, 0) + " Seconds");
+}, 1000);
+
 //selects a random question from the question bank array and assigns the object to the activeQuestion variable
-    // loop through the array indices
-  //  for (i = 0; i > questionBank.length; i--) {
-    	var selectQuestion = function() {
-        var randomIndex = Math.floor(Math.random() * questionBank.length);
-        activeQuestion = questionBank[randomIndex];
-        // display the question and its possible answers in the DOM
-        $("#question").text(activeQuestion.question);
-        for (j = 0; j < activeQuestion["answers"].length; j++) {
-            $("#answers").append("<div>" + activeQuestion.answers[j] + "</div>");
-        };
+// loop through the array indices
+//  for (i = 0; i > questionBank.length; i--) {
+var selectQuestion = function() {
+    var randomIndex = Math.floor(Math.random() * questionBank.length);
+    activeQuestion = questionBank[randomIndex];
+    // display the question and its possible answers in the DOM
 
+    	if (activeQuestion === undefined) {
+    		var showCorrect= function() {
+    	for (x = 0; x < answeredCorrect.length; x++) {
+    		
+    		correct.push(answeredCorrect[x].question);
+    		
 
-        // start a timer for length that the question can be displayed
-        // if the user clicks correct answer, display "correct answer", wait a few seconds, display new question, reset timer
-        // store correct answer
-        // if an incorrect answer is selected, display "incorrect answer", wait, display actual correct answer, display new question, reset timer
-        // store incorrect answer
-        // if timer runs out, display "time's up", display actual correct answer, display new question, reset timer
-        // store as incorrect answer
-        // removes the question from the list of available questions	
-        questionBank.splice(randomIndex, 1);
- //   };
-        console.log(activeQuestion);
-        console.log(questionBank);
-
+    		    	};
+    		    	displayCorrect = correct.join("<br>");
     };
-    // if the length of the questionBank array = 0, display correct and incorrect answers
 
-//begin game upon clicking start button
+    	var showWrong= function() {
+    	for (x = 0; x < answeredWrong.length; x++) {
+    		wrong.push(answeredWrong[x].question);
+    		
+    		    	};
+    		    	displayWrong = wrong.join("<br>");
+    };
+    	showCorrect();
+    	showWrong();
+
+        $("#answers").html("<h2>You got " + correctCounter + "/5 correct<br>Correct Answers: </h2><p>" + displayCorrect + 
+        	"</p><br><h2>Incorrect Answers: </h2><p>" + displayWrong + "</p>");
+
+    } else {
+        $("#question").html("<h2>" + activeQuestion.question + "</h2>");
+        for (j = 0; j < activeQuestion["answers"].length; j++) {
+            $("#answers").append("<div><p>" + activeQuestion.answers[j] + "</p></div>");
+        };
+        activeQuestion.giveAnswer();
+        questionBank.splice(randomIndex, 1);
+        var count = 15;
+
+        var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+        function timer() {
+            count = count - 1;
+            if (count <= 0) {
+                clearInterval(counter);
+                answeredWrong.push(activeQuestion);
+                $("#answers").empty();
+                // displays "incorrect answer" inside the question div
+                $("#question").html("<h2>Wrong Answer!<br>Correct answer was " + correctAnswer + "!</h2>");
+                setTimeout(selectQuestion, 4000);
+                return;
+            }
+
+            $("#timer").text("Time Remaining: " + count);
+        };
+        // allows the user to click an answer
+        $("#answers").contents().on("click", function() {
+            var selected = $(this).text();
+            console.log(selected);
+            // what happens if user selects correct answer
+            if (selected === correctAnswer) {
+            	//clear timer
+            	clearInterval(counter);
+                // pushes question to correctly answered questions array
+                answeredCorrect.push(activeQuestion);
+                correctCounter++;
+                // removes current question and answers
+                $("#answers").empty();
+                // displays "correct answer" inside the question div
+                $("#question").html("<h2>Correct Answer!</h2>");
+                setTimeout(selectQuestion, 4000);
+            } else if (selected !== correctAnswer) {
+            	// clear timer
+            	clearInterval(counter);
+                //pushes question to incorrectly answered questions array
+                answeredWrong.push(activeQuestion);
+                $("#answers").empty();
+                // displays "incorrect answer" inside the question div
+                $("#question").html("<h2>Wrong Answer!<br>Correct answer was " + correctAnswer + "!</h2>");
+                setTimeout(selectQuestion, 4000);
+            };
+
+
+        });
+    };
+
+
+
+
+};
+
+$(".container").bgswitcher({
+  images: ["assets/images/bgdefault.jpg", "assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg3.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
+});
+
 $("#start").on("click", function() {
-	selectQuestion();
+
+	$("#start").hide();
+	$("#timer").removeClass("hidden");
+    selectQuestion();
 
 });
+
+
+// start a timer for length that the question can be displayed
+// if the user clicks correct answer, display "correct answer", wait a few seconds, display new question, reset timer
+// store correct answer
+// if an incorrect answer is selected, display "incorrect answer", wait, display actual correct answer, display new question, reset timer
+// store incorrect answer
+// if timer runs out, display "time's up", display actual correct answer, display new question, reset timer
+// store as incorrect answer
+// removes the question from the list of available questions	
+
+//   };
+
+// if the length of the questionBank array = 0, display correct and incorrect answers
+
+//begin game upon clicking start button

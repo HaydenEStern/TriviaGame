@@ -1,0 +1,17 @@
+body {
+	background-color: black;
+
+}
+
+.container {
+	height: 680px;
+	max-width: 1024px;
+}
+
+h1, h2 {
+	font-family: 'Fredericka the Great', cursive;
+}
+
+p {
+	font-family: 'Open Sans Condensed', sans-serif;
+}

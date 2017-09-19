@@ -138,7 +138,7 @@ var selectQuestion = function() {
                 return;
             }
 
-            $("#timer").text("Time Remaining: " + count);
+            $("#timer").html("<p>Time Remaining: " + count + "</p>");
         };
         // allows the user to click an answer
         $("#answers").contents().on("click", function() {
@@ -176,8 +176,9 @@ var selectQuestion = function() {
 
 };
 
-$(".container").bgswitcher({
-  images: ["assets/images/bgdefault.jpg", "assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg3.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
+$("body").bgswitcher({
+  images: ["assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
+  interval: 10000,
 });
 
 $("#start").on("click", function() {

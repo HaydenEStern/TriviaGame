@@ -194,19 +194,3 @@ var selectQuestion = function() {
     selectQuestion();
 
 });
-
-
-// start a timer for length that the question can be displayed
-// if the user clicks correct answer, display "correct answer", wait a few seconds, display new question, reset timer
-// store correct answer
-// if an incorrect answer is selected, display "incorrect answer", wait, display actual correct answer, display new question, reset timer
-// store incorrect answer
-// if timer runs out, display "time's up", display actual correct answer, display new question, reset timer
-// store as incorrect answer
-// removes the question from the list of available questions	
-
-//   };
-
-// if the length of the questionBank array = 0, display correct and incorrect answers
-
-//begin game upon clicking start button

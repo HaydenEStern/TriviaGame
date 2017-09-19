@@ -11,6 +11,17 @@
 // create a bank of questions. these should be objects, so that the question and answer can be stored in the same object
 // store correctAnswer as a variable inside the object (but declare globally)
 
+
+
+
+
+$("body").bgswitcher({
+  images: ["assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
+  interval: 10000,
+});
+
+$("#start").on("click", function() {
+	$("#answers").empty();
 var correctAnswer;
 var activeQuestion = {};
 var answeredCorrect = [];
@@ -92,6 +103,7 @@ var selectQuestion = function() {
     // display the question and its possible answers in the DOM
 
     	if (activeQuestion === undefined) {
+    		// allow correct answers to be displayed at end of game
     		var showCorrect= function() {
     	for (x = 0; x < answeredCorrect.length; x++) {
     		
@@ -101,7 +113,7 @@ var selectQuestion = function() {
     		    	};
     		    	displayCorrect = correct.join("<br>");
     };
-
+    // allow wrong answers to be displayed at end of game
     	var showWrong= function() {
     	for (x = 0; x < answeredWrong.length; x++) {
     		wrong.push(answeredWrong[x].question);
@@ -114,6 +126,8 @@ var selectQuestion = function() {
 
         $("#answers").html("<h2>You got " + correctCounter + "/5 correct<br>Correct Answers: </h2><p>" + displayCorrect + 
         	"</p><br><h2>Incorrect Answers: </h2><p>" + displayWrong + "</p>");
+        $("#start").text("Play Again");
+        $("#start").show();
 
     } else {
         $("#question").html("<h2>" + activeQuestion.question + "</h2>");
@@ -175,14 +189,6 @@ var selectQuestion = function() {
 
 
 };
-
-$("body").bgswitcher({
-  images: ["assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
-  interval: 10000,
-});
-
-$("#start").on("click", function() {
-
 	$("#start").hide();
 	$("#timer").removeClass("hidden");
     selectQuestion();

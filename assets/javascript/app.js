@@ -123,7 +123,7 @@ var selectQuestion = function() {
     };
     	showCorrect();
     	showWrong();
-
+    	$("#question").empty();
         $("#answers").html("<h2>You got " + correctCounter + "/5 correct<br>Correct Answers: </h2><p>" + displayCorrect + 
         	"</p><br><h2>Incorrect Answers: </h2><p>" + displayWrong + "</p>");
         $("#start").text("Play Again");

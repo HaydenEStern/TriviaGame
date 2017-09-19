@@ -14,12 +14,13 @@
 
 
 
-
+// background image animation
 $("body").bgswitcher({
   images: ["assets/images/bg1.jpg", "assets/images/bg2.jpg", "assets/images/bg4.jpg", "assets/images/bg5.jpg"],
   interval: 10000,
 });
 
+// game function
 $("#start").on("click", function() {
 	$("#answers").empty();
 var correctAnswer;
